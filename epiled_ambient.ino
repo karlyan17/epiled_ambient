@@ -1,10 +1,10 @@
-  int red_led = 2;          // - digital pins for your leds 
-  int green_led = 4;        // - don't forget 1kOhm serial resistor!
+  int red_led = 5;          // - digital pins for your leds 
+  int green_led = 6;        // - don't forget 1kOhm serial resistor!
   int blue_led = 7;         
   int audio_r = 0;          // - analog audio input (right + left)
   int max_volt = 300;       // - estimated maximal voltage in mV
   int amp = 0;              //   will be dynamically adjusted
-  int main_intv = 100;      // - duration of wave sampling in ms
+  int main_intv = 200;      // - duration of wave sampling in ms
   int min_counter = 0;      // - counts ms to a full minute in ms
   int max_volt_collect = 0;
   int board_volt = 5000;    // - arduino board voltage in mV
