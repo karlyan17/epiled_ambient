@@ -13,8 +13,11 @@ visualizing the data.
 
 #include <FHT.h> // include the library
 
+int maxout;
+int fout;
 void setup() {
   Serial.begin(115200); // use the serial port
+//  analogReference(INTERNAL);
   TIMSK0 = 0; // turn off timer0 for lower jitter
   ADCSRA = 0xe5; // set the adc to free running mode
   ADMUX = 0x40; // use adc0
@@ -33,7 +36,15 @@ void loop() {
       k -= 0x0200; // form into a signed int
       k <<= 6; // form into a 16b signed int
       fht_input[i] = k; // put real data into bins
+//    fht_input[i] = analogRead(0);
+//    Serial.println(fht_input[i]);
     }
+//    Serial.println("#########################");
+//    for (int x = 0; x<256;x++) {
+//      Serial.println(fht_input[x]);
+//      Serial.print(" | ");
+//      Serial.println(FHT_N/2); // send out the data
+//    }
     fht_window(); // window the data for better frequency response
     fht_reorder(); // reorder the data before doing the fht
     fht_run(); // process the data in the fht
@@ -41,10 +52,20 @@ void loop() {
     sei();
     //Serial.write(255); // send a start byt
     Serial.println("-------------------------");
-    for (int x = 0; x<128;x++) {
-      Serial.println(fht_log_out[x]);
+    for (int y = 0; y<128;y++) {
+      if (fht_log_out[y] > maxout) {
+        //Serial.print("boop: ");
+        maxout = fht_log_out[y];
+        fout = y;
+        //Serial.println(maxout);
+      }
+      Serial.println(fht_log_out[y]);
+      //Serial.print(" | ");
       //Serial.println(FHT_N/2); // send out the data
     }
+    //Serial.println(fout);
+    fout = 0;
+    maxout = 0;
   }
 }
 
